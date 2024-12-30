@@ -5,7 +5,7 @@ class WeatherState {
   final List<WeatherModel> weatherModel;
   final String error;
   final String apiPath;
-  final int q;
+  final String q;
   final bool loadMore;
   final int day;
   WeatherState({
@@ -17,13 +17,13 @@ class WeatherState {
     required this.loadMore,
     required this.day,
   });
-  WeatherState instances({
+  WeatherState copyWith({
     required WeatherState weatherState,
     bool? isLoading,
     List<WeatherModel>? weatherModel,
     String? error,
     String? apiPath,
-    int? q,
+    String? q,
     bool? loadMore,
     int? day,
   }) {
