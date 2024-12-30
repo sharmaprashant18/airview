@@ -1,0 +1,40 @@
+import 'package:weather_app/model/weather_model.dart';
+
+class WeatherState {
+  final bool isLoading;
+  final List<WeatherModel> weatherModel;
+  final String error;
+  final String apiPath;
+  final int q;
+  final bool loadMore;
+  final int day;
+  WeatherState({
+    required this.isLoading,
+    required this.weatherModel,
+    required this.error,
+    required this.apiPath,
+    required this.q,
+    required this.loadMore,
+    required this.day,
+  });
+  WeatherState instances({
+    required WeatherState weatherState,
+    bool? isLoading,
+    List<WeatherModel>? weatherModel,
+    String? error,
+    String? apiPath,
+    int? q,
+    bool? loadMore,
+    int? day,
+  }) {
+    return WeatherState(
+      isLoading: isLoading ?? weatherState.isLoading,
+      weatherModel: weatherModel ?? weatherState.weatherModel,
+      error: error ?? weatherState.error,
+      apiPath: apiPath ?? weatherState.apiPath,
+      q: q ?? weatherState.q,
+      loadMore: loadMore ?? weatherState.loadMore,
+      day: day ?? weatherState.day,
+    );
+  }
+}
