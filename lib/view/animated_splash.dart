@@ -11,18 +11,15 @@ class Splashscreen extends StatelessWidget {
     final actualHeight = MediaQuery.of(context).size.height;
     return AnimatedSplashScreen(
       duration: 3000,
-      splash: Card(
-        color: Colors.grey,
-        child: Column(
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 150),
-                child: LottieBuilder.asset('assets/weather_animated.json'),
-              ),
-            )
-          ],
-        ),
+      splash: Column(
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 150),
+              child: LottieBuilder.asset('assets/weather_animated.json'),
+            ),
+          )
+        ],
       ),
       nextScreen: Homepage(),
       splashIconSize: actualHeight * 0.7,

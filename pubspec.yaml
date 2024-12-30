@@ -45,10 +45,10 @@ dependencies:
   flutter_launcher_icons: ^0.14.2
   dartz: ^0.10.1
 flutter_native_splash: 
-  color: "#041828" 
-  image: assets/splash.png
+  color: "#ffffff" 
+  image: assets/weather_splash.png
   android_12:
-    image: assets/splash.png 
+    image: assets/weather_splash.png 
   web: false
 
 dev_dependencies:
