@@ -37,4 +37,12 @@ class WeatherState {
       day: day ?? weatherState.day,
     );
   }
+
+  String when(
+      {required Function(dynamic data) data,
+      required String Function() loading,
+      required String Function(dynamic error, dynamic _) error}) {
+    // Add your logic here
+    return '';
+  }
 }

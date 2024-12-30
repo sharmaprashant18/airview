@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app/provider/weather_provider.dart';
 import 'package:weather_app/services/geolocator.dart';
 
 class Homepage extends StatelessWidget {
@@ -10,16 +12,30 @@ class Homepage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Weather App'),
       ),
-      body: Container(
-        // margin: const EdgeInsets.only(top: 00, left: 300),
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              final location = await getLocation();
-            },
-            child: const Text('Get Location'),
-          ),
-        ),
+      body: Consumer(
+        builder: (context, ref, child) {
+          final weather = ref.watch(currentWeatherProvider);
+
+          return Container(
+            child: Column(
+              children: [
+                Text(weather.when(
+                  data: (data) => data.toString(),
+                  loading: () => 'Loading...',
+                  error: (error, _) => 'Error: $error',
+                )),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final location = await getLocation();
+                    },
+                    child: const Text('Get Location'),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
