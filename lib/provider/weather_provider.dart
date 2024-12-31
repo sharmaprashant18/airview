@@ -44,6 +44,10 @@ class CurrentWeatherProvider extends StateNotifier<WeatherState> {
     state = state.copyWith(weatherState: state, loadMore: true);
     getData();
   }
+
+  void updateWeather(String value) {}
+
+  void getCurrentWeather(String value) {}
 }
 
 final weatherForeCastProvider =

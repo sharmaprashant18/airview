@@ -7,10 +7,8 @@ class WeatherService {
   static Future<Either<String, List<WeatherModel>>> getCurrentWeather(
       {required String apiPath, required String q}) async {
     try {
-      final response = await dio.get(apiPath, queryParameters: {
-        'api_key': 'ffa8bc7cc16b486d85f103719242912',
-        'q': q
-      });
+      final response = await dio.get(apiPath,
+          queryParameters: {'key': 'ffa8bc7cc16b486d85f103719242912', 'q': q});
       final newData = (response.data['data'] as List)
           .map((e) => WeatherModel.fromJson(e))
           .toList();
@@ -24,7 +22,7 @@ class WeatherService {
       {required String apiPath, required String q, required int day}) async {
     try {
       final response = await dio.get(apiPath, queryParameters: {
-        'api_key': 'ffa8bc7cc16b486d85f103719242912',
+        'key': 'ffa8bc7cc16b486d85f103719242912',
         'q': q,
         'days': day
       });
@@ -40,10 +38,8 @@ class WeatherService {
   static Future<Either<String, List<WeatherModel>>> searchWeather(
       {required String apiPath, required String q}) async {
     try {
-      final response = await dio.get(apiPath, queryParameters: {
-        'api_key': 'ffa8bc7cc16b486d85f103719242912',
-        'q': q
-      });
+      final response = await dio.get(apiPath,
+          queryParameters: {'key': 'ffa8bc7cc16b486d85f103719242912', 'q': q});
       final newData = (response.data['data'] as List)
           .map((e) => WeatherModel.fromJson(e))
           .toList();

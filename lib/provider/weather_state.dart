@@ -17,6 +17,8 @@ class WeatherState {
     required this.loadMore,
     required this.day,
   });
+
+  get state => null;
   WeatherState copyWith({
     required WeatherState weatherState,
     bool? isLoading,
