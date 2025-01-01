@@ -44,6 +44,8 @@ dependencies:
   flutter_native_splash: ^2.4.3
   flutter_launcher_icons: ^0.14.2
   dartz: ^0.10.1
+  cached_network_image: ^3.4.1
+  get: ^4.6.6
 flutter_native_splash: 
   color: "#ffffff" 
   image: assets/weather_splash.png
