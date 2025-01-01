@@ -10,7 +10,7 @@ final currentWeatherProvider =
               weatherModel: [],
               error: '',
               apiPath: Api.currentWeather,
-              q: '',
+              q: 'London',
               loadMore: false,
               day: 1,
             )));
@@ -57,7 +57,7 @@ final weatherForeCastProvider =
               weatherModel: [],
               error: '',
               apiPath: Api.weatherForecast,
-              q: '',
+              q: 'London',
               loadMore: false,
               day: 1,
             )));

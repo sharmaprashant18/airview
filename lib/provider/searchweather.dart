@@ -57,4 +57,6 @@ class WeatherSearchProvider extends StateNotifier<WeatherState> {
     state = state.copyWith(weatherState: state, loadMore: true);
     getData(searchText: null);
   }
+
+  void searchweather(String value) {}
 }
