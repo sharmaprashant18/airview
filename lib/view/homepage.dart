@@ -14,16 +14,16 @@ class Homepage extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          // final weather = ref.watch(currentWeatherProvider);
+          final weather = ref.watch(currentWeatherProvider);
 
           return Container(
             child: Column(
               children: [
-                // Text(weather.when(
-                //   data: (data) => data.toString(),
-                //   loading: () => 'Loading...',
-                //   error: (error, _) => 'Error: $error',
-                // )),
+                Text(weather.when(
+                  data: (data) => data.toString(),
+                  loading: () => 'Loading...',
+                  error: (error, _) => 'Error: $error',
+                )),
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
