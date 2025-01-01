@@ -16,6 +16,8 @@ final currentWeatherProvider =
             )));
 
 class CurrentWeatherProvider extends StateNotifier<WeatherState> {
+  var weatherModel;
+
   CurrentWeatherProvider(super.state) {
     getData();
   }
