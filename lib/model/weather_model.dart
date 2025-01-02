@@ -23,7 +23,7 @@ class Location {
   final double lon;
   final String tz_id;
   final int localtimeEpoch;
-  final DateTime localtime;
+  final String localtime;
   Location({
     required this.name,
     required this.region,
@@ -43,13 +43,13 @@ class Location {
         lon: json['lon'],
         tz_id: json['tz_id'],
         localtimeEpoch: json['localtime_epoch'],
-        localtime: DateTime.parse(json['localtime']));
+        localtime: json['localtime']);
   }
 }
 
 class Current {
   final int last_Updated_epoch;
-  final DateTime last_updated;
+  final String last_updated;
   final double temp_c;
   final double temp_f;
   Current({
@@ -61,7 +61,7 @@ class Current {
   factory Current.fromJson(Map<String, dynamic> json) {
     return Current(
         last_Updated_epoch: json['last_updated_epoch'],
-        last_updated: DateTime.parse(json['last_updated']),
+        last_updated: json['last_updated'],
         temp_c: json['temp_c'],
         temp_f: json['temp_f']);
   }
@@ -71,31 +71,15 @@ class Forecast {
   final List<Forecastday> forecastday;
   Forecast({required this.forecastday});
   factory Forecast.fromJson(Map<String, dynamic> json) {
-    List<Forecastday> forecastday = [];
-    for (var item in json['forecastday']) {
-      forecastday.add(Forecastday.fromJson(item));
-    }
-    return Forecast(forecastday: forecastday);
+    return Forecast(forecastday: json['forecastday']);
   }
 }
 
 class Forecastday {
-  final DateTime date;
-  Day day;
+  final String date;
+  final String day;
   Forecastday({required this.date, required this.day});
   factory Forecastday.fromJson(Map<String, dynamic> json) {
-    return Forecastday(
-        date: DateTime.parse(json['date']), day: Day.fromJson(json['day']));
-  }
-}
-
-class Day {
-  Day() {}
-
-  Day.fromJson(Map<String, dynamic> json) {}
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    return data;
+    return Forecastday(date: json['date'], day: json['day']);
   }
 }
