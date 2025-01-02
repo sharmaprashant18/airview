@@ -9,9 +9,8 @@ class WeatherService {
     try {
       final response = await dio.get(apiPath,
           queryParameters: {'key': 'ffa8bc7cc16b486d85f103719242912', 'q': q});
-      final newData = (response.data['data'] as List)
-          .map((e) => WeatherModel.fromJson(e))
-          .toList();
+      final newData = (response.data['location']);
+      print(newData[0]);
       return Right(newData);
     } on DioException catch (e) {
       return Left(e.message as String);
