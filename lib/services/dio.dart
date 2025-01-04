@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:weather_app/model/weather_model.dart';
 
 class WeatherService {
@@ -51,5 +52,9 @@ class WeatherService {
   }
 }
 
-
-stl
+class MyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
