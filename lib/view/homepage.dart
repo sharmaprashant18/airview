@@ -19,7 +19,7 @@ class Homepage extends StatelessWidget {
           return Container(
             child: Column(
               children: [
-                Text(),
+                Text('$weather'),
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
