@@ -14,7 +14,7 @@ class Homepage extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final weather = ref.watch(currentWeatherProvider);
+          final weather = ref.read(currentWeatherProvider.notifier);
 
           return Container(
             child: Column(

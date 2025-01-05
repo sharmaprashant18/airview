@@ -16,12 +16,10 @@ final currentWeatherProvider =
             )));
 
 class CurrentWeatherProvider extends StateNotifier<WeatherState> {
-  var weatherModel;
-
   CurrentWeatherProvider(super.state) {
     getData();
   }
-  Future<void> getData() async {
+  getData() async {
     state = state.copyWith(
         weatherState: state, isLoading: state.loadMore ? false : true);
     final response = await WeatherService.getCurrentWeather(
