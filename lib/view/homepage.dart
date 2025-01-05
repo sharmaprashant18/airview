@@ -19,11 +19,7 @@ class Homepage extends StatelessWidget {
           return Container(
             child: Column(
               children: [
-                Text(weather.when(
-                  data: (data) => data.toString(),
-                  loading: () => 'Loading...',
-                  error: (error, _) => 'Error: $error',
-                )),
+                Text(),
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
