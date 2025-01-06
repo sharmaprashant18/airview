@@ -19,7 +19,7 @@ class CurrentWeatherProvider extends StateNotifier<WeatherState> {
   CurrentWeatherProvider(super.state) {
     getData();
   }
-  getData() async {
+  Future getData() async {
     state = state.copyWith(
         weatherState: state, isLoading: state.loadMore ? false : true);
     final response = await WeatherService.getCurrentWeather(
@@ -45,9 +45,10 @@ class CurrentWeatherProvider extends StateNotifier<WeatherState> {
     getData();
   }
 
-  void updateWeather(String value) {}
-
-  void getCurrentWeather(String value) {}
+  void search(String q) {
+    state = state.copyWith(weatherState: state, q: q);
+    getData();
+  }
 }
 
 final weatherForeCastProvider =
