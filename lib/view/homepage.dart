@@ -53,6 +53,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:weather_app/api.dart';
 import 'package:weather_app/model/weather_model.dart';
 
@@ -80,7 +81,7 @@ class Homepage extends StatelessWidget {
       hintText: 'Search Location',
       controller: textController,
       onSubmitted: (value) {
-        _getWeatherData(value);
+        // _getWeatherData(value);
         if (value.isEmpty) {
           Get.defaultDialog(
               backgroundColor: Color.fromRGBO(240, 240, 217, 0.984),
@@ -101,8 +102,8 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  _getWeatherData(String location) async {
-    WeatherModel response = await Api().getCurrentWeather(location);
-    print(response.toJson());
-  }
+  // _getWeatherData(String location) async {
+  //   WeatherModel response = await Api().getCurrentWeather(location);
+  //   print(response.toJson());
+  // }
 }
