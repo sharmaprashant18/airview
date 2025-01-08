@@ -1,166 +1,211 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather_app/view/animated_splash.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
-
-  runApp(ProviderScope(child: MyApp(isFirstLaunch: isFirstLaunch)));
+  runApp(ProviderScope(child: Home()));
+  await Future.delayed(Duration(milliseconds: 100));
 }
 
-class MyApp extends StatelessWidget {
-  final bool isFirstLaunch;
-
-  const MyApp({Key? key, required this.isFirstLaunch}) : super(key: key);
+class Home extends StatelessWidget {
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: isFirstLaunch ? HelpScreen() : HomeScreen(),
+      home: Splashscreen(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class HelpScreen extends StatefulWidget {
-  @override
-  _HelpScreenState createState() => _HelpScreenState();
-}
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
-class _HelpScreenState extends State<HelpScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration(seconds: 5), () {
-      _navigateToHome();
-    });
-  }
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
+//   runApp(ProviderScope(child: Home(isFirstLaunch: isFirstLaunch)));
+// }
 
-  void _navigateToHome() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isFirstLaunch', false);
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
-  }
+// class Home extends StatelessWidget {
+//   final bool isFirstLaunch;
+//   const Home({super.key, required this.isFirstLaunch});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.network(
-            'https://www.vhv.rs/dpng/d/427-4270068_gold-retro-decorative-frame-png-free-download-transparent.png',
-            fit: BoxFit.cover,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'We show weather for you',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _navigateToHome,
-                child: Text('Skip'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: isFirstLaunch ? HelpScreen() : WeatherScreen(),
+//       debugShowCheckedModeBanner: false,
+//     );
+//   }
+// }
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
+// class HelpScreen extends StatefulWidget {
+//   @override
+//   _HelpScreenState createState() => _HelpScreenState();
+// }
 
-class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController _locationController = TextEditingController();
-  String _temperature = '';
-  String _condition = '';
-  String _iconUrl = '';
+// class _HelpScreenState extends State<HelpScreen> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     Future.delayed(Duration(seconds: 5), () {
+//       _navigateToHome();
+//     });
+//   }
 
-  @override
-  void initState() {
-    super.initState();
-    _loadLocation();
-  }
+//   void _navigateToHome() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     await prefs.setBool('isFirstLaunch', false);
+//     Navigator.pushReplacement(
+//       context,
+//       MaterialPageRoute(builder: (context) => WeatherScreen()),
+//     );
+//   }
 
-  void _loadLocation() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? location = prefs.getString('location');
-    if (location != null) {
-      _locationController.text = location;
-      _fetchWeather(location);
-    } else {
-      _fetchWeatherByCurrentLocation();
-    }
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Stack(
+//         fit: StackFit.expand,
+//         children: [
+//           Image.asset(
+//             'assets/moru_background.png',
+//             fit: BoxFit.contain,
+//           ),
+//           Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Text(
+//                 'We show weather for you',
+//                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+//               ),
+//               SizedBox(height: 20),
+//               ElevatedButton(
+//                 onPressed: _navigateToHome,
+//                 child: Text('Skip'),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-  void _fetchWeather(String location) async {
-    // Call weather API with location
-    // Update _temperature, _condition, and _iconUrl with the response
-  }
+// class WeatherScreen extends StatefulWidget {
+//   @override
+//   _WeatherScreenState createState() => _WeatherScreenState();
+// }
 
-  void _fetchWeatherByCurrentLocation() async {
-    // Call weather API with current latitude and longitude
-    // Update _temperature, _condition, and _iconUrl with the response
-  }
+// class _WeatherScreenState extends State<WeatherScreen> {
+//   TextEditingController _locationController = TextEditingController();
+//   String _temperature = '';
+//   String _condition = '';
+//   String _iconUrl = '';
+//   bool _isUpdating = false;
 
-  void _saveLocation() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('location', _locationController.text);
-    _fetchWeather(_locationController.text);
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     _loadSavedLocation();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Weather App'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.help),
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => HelpScreen()));
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _locationController,
-              decoration: InputDecoration(
-                labelText: 'Enter location name',
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _saveLocation,
-              child: Text(_locationController.text.isEmpty ? 'Save' : 'Update'),
-            ),
-            SizedBox(height: 20),
-            if (_temperature.isNotEmpty)
-              Column(
-                children: [
-                  Text('Temperature: $_temperature°C'),
-                  Text('Condition: $_condition'),
-                  Image.network('https:$_iconUrl'),
-                ],
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   void _loadSavedLocation() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     String? savedLocation = prefs.getString('location');
+//     if (savedLocation != null) {
+//       _locationController.text = savedLocation;
+//       _fetchWeather(savedLocation);
+//     } else {
+//       _fetchWeatherByCurrentLocation();
+//     }
+//   }
+
+//   void _fetchWeather(String location) async {
+//     final response = await http.get(Uri.parse(
+//         'http://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q=$location'));
+//     if (response.statusCode == 200) {
+//       final data = json.decode(response.body);
+//       setState(() {
+//         _temperature = '${data['current']['temp_c']} °C';
+//         _condition = data['current']['condition']['text'];
+//         _iconUrl = 'https:${data['current']['condition']['icon']}';
+//       });
+//     } else {
+//       _showError();
+//     }
+//   }
+
+//   void _fetchWeatherByCurrentLocation() async {
+//     // Implement fetching weather by current location
+//   }
+
+//   void _showError() {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(content: Text('Failed to fetch weather data')),
+//     );
+//   }
+
+//   void _saveLocation() async {
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     await prefs.setString('location', _locationController.text);
+//     _fetchWeather(_locationController.text);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Weather App'),
+//         actions: [
+//           IconButton(
+//             icon: Icon(Icons.help),
+//             onPressed: () {
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(builder: (context) => HelpScreen()),
+//               );
+//             },
+//           ),
+//         ],
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           children: [
+//             TextField(
+//               controller: _locationController,
+//               decoration: InputDecoration(labelText: 'Enter location'),
+//             ),
+//             SizedBox(height: 10),
+//             ElevatedButton(
+//               onPressed: _saveLocation,
+//               child: Text(_locationController.text.isEmpty ? 'Save' : 'Update'),
+//             ),
+//             SizedBox(height: 20),
+//             if (_temperature.isNotEmpty)
+//               Column(
+//                 children: [
+//                   Text(
+//                     _temperature,
+//                     style: TextStyle(fontSize: 32),
+//                   ),
+//                   Text(
+//                     _condition,
+//                     style: TextStyle(fontSize: 24),
+//                   ),
+//                   Image.network(_iconUrl),
+//                 ],
+//               ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
