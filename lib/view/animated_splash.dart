@@ -66,7 +66,7 @@ class Splashscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final actualHeight = MediaQuery.of(context).size.height;
     Future.delayed(Duration(seconds: 5), () {
-      Get.to<dynamic>(() => Homepage());
+      Get.to<dynamic>(() => HomePage());
     });
     return Scaffold(
       body: Stack(
@@ -83,7 +83,7 @@ class Splashscreen extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(() => Homepage());
+                  Get.to(() => HomePage());
                 },
                 child: Text('Skip'),
               ),
