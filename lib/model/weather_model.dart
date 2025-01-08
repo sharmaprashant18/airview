@@ -1,115 +1,118 @@
 class WeatherModel {
-  final Location location;
-  final Current current;
-  final Forecast forecast;
-  final List<SearchWeather> searchWeather;
-  WeatherModel(
-      {required this.location,
-      required this.current,
-      required this.forecast,
-      required this.searchWeather});
-  factory WeatherModel.fromJson(Map<String, dynamic> json) {
-    return WeatherModel(
-      location: Location.fromJson(json['location'] as Map<String, dynamic>),
-      current: Current.fromJson(json['current']),
-      forecast: Forecast.fromJson(json['forecast']),
-      searchWeather: (json['weather'] as List<dynamic>)
-          .map((e) => SearchWeather.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  Location? location;
+  Current? current;
+
+  WeatherModel({this.location, this.current});
+
+  WeatherModel.fromJson(Map<String, dynamic> json) {
+    location = json['location'] != null
+        ? new Location.fromJson(json['location'])
+        : null;
+    current =
+        json['current'] != null ? new Current.fromJson(json['current']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.location != null) {
+      data['location'] = this.location!.toJson();
+    }
+    if (this.current != null) {
+      data['current'] = this.current!.toJson();
+    }
+    return data;
   }
 }
 
 class Location {
-  final String name;
-  final String region;
-  final String country;
-  final double lat;
-  final double lon;
-  final String tz_id;
-  final int localtimeEpoch;
-  final String localtime;
-  Location({
-    required this.name,
-    required this.region,
-    required this.country,
-    required this.lat,
-    required this.lon,
-    required this.tz_id,
-    required this.localtimeEpoch,
-    required this.localtime,
-  });
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
-        name: json['name'] as String,
-        region: json['region'] as String,
-        country: json['country'] as String,
-        lat: json['lat'] as double,
-        lon: json['lon'] as double,
-        tz_id: json['tz_id'],
-        localtimeEpoch: json['localtime_epoch'] as int,
-        localtime: json['localtime'] as String);
+  String? name;
+  String? country;
+  String? localtime;
+
+  Location({this.name, this.country, this.localtime});
+
+  Location.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    country = json['country'];
+    localtime = json['localtime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['country'] = this.country;
+    data['localtime'] = this.localtime;
+    return data;
   }
 }
 
 class Current {
-  final int last_Updated_epoch;
-  final String last_updated;
-  final double temp_c;
-  final double temp_f;
-  Current({
-    required this.last_Updated_epoch,
-    required this.last_updated,
-    required this.temp_c,
-    required this.temp_f,
-  });
-  factory Current.fromJson(Map<String, dynamic> json) {
-    return Current(
-        last_Updated_epoch: json['last_updated_epoch'] as int,
-        last_updated: json['last_updated'] as String,
-        temp_c: json['temp_c'] as double,
-        temp_f: json['temp_f'] as double);
+  int? tempC;
+  double? tempF;
+  int? isDay;
+  Condition? condition;
+  double? windKph;
+  double? precipMm;
+  int? humidity;
+  double? uv;
+
+  Current(
+      {this.tempC,
+      this.tempF,
+      this.isDay,
+      this.condition,
+      this.windKph,
+      this.precipMm,
+      this.humidity,
+      this.uv});
+
+  Current.fromJson(Map<String, dynamic> json) {
+    tempC = json['temp_c'];
+    tempF = json['temp_f'];
+    isDay = json['is_day'];
+    condition = json['condition'] != null
+        ? new Condition.fromJson(json['condition'])
+        : null;
+    windKph = json['wind_kph'];
+    precipMm = json['precip_mm'];
+    humidity = json['humidity'];
+    uv = json['uv'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['temp_c'] = this.tempC;
+    data['temp_f'] = this.tempF;
+    data['is_day'] = this.isDay;
+    if (this.condition != null) {
+      data['condition'] = this.condition!.toJson();
+    }
+    data['wind_kph'] = this.windKph;
+    data['precip_mm'] = this.precipMm;
+    data['humidity'] = this.humidity;
+    data['uv'] = this.uv;
+    return data;
   }
 }
 
-class Forecast {
-  final List<Forecastday> forecastday;
-  Forecast({required this.forecastday});
-  factory Forecast.fromJson(Map<String, dynamic> json) {
-    return Forecast(forecastday: json['forecastday']);
-  }
-}
+class Condition {
+  String? text;
+  String? icon;
+  int? code;
 
-class Forecastday {
-  final String date;
-  final String day;
-  Forecastday({required this.date, required this.day});
-  factory Forecastday.fromJson(Map<String, dynamic> json) {
-    return Forecastday(date: json['date'], day: json['day']);
-  }
-}
+  Condition({this.text, this.icon, this.code});
 
-class SearchWeather {
-  final int id;
-  final String name;
-  final String region;
-  final double lat;
-  final double lon;
-  final String url;
-  SearchWeather(
-      {required this.id,
-      required this.name,
-      required this.region,
-      required this.lat,
-      required this.lon,
-      required this.url});
-  factory SearchWeather.fromJson(Map<String, dynamic> json) {
-    return SearchWeather(
-        id: json['id'] as int,
-        name: json['name'] as String,
-        region: json['region'] as String,
-        lat: json['lat'] as double,
-        lon: json['lon'] as double,
-        url: json['url'] as String);
+  Condition.fromJson(Map<String, dynamic> json) {
+    text = json['text'];
+    icon = json['icon'];
+    code = json['code'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['text'] = this.text;
+    data['icon'] = this.icon;
+    data['code'] = this.code;
+    return data;
   }
 }
