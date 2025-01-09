@@ -84,7 +84,10 @@ class _HomepageState extends State<Homepage> {
           children: [
             buildSearch(),
             const SizedBox(height: 15),
-            if (isLoading) CircularProgressIndicator() else buildWeather(),
+            if (isLoading)
+              CircularProgressIndicator()
+            else
+              Expanded(child: SingleChildScrollView(child: buildWeather())),
           ],
         ),
       ),
@@ -120,7 +123,18 @@ class _HomepageState extends State<Homepage> {
 
   Widget buildWeather() {
     if (response == null) {
-      return Text('Search for a city');
+      return Column(
+        children: [
+          Text(
+            response?.location?.name ?? "",
+            style: TextStyle(fontSize: 50),
+          ),
+          Text(
+            response?.location?.country ?? "",
+            style: TextStyle(fontSize: 20),
+          ),
+        ],
+      );
     } else {
       return Column(
         children: [
@@ -178,7 +192,7 @@ class _HomepageState extends State<Homepage> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 shadowColor: Colors.amber,
-                elevation: 10,
+                elevation: 5,
                 child: Column(
                   children: [
                     Row(
@@ -191,7 +205,29 @@ class _HomepageState extends State<Homepage> {
                             (response?.current?.humidity?.toString() ?? "") +
                                 " km/h"),
                       ],
-                    )
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        humidityAndWind(
+                            "UV:", response?.current?.uv?.toString() ?? ""),
+                        humidityAndWind("Percipitation:",
+                            response?.current?.precipMm?.toString() ?? ""),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        humidityAndWind(
+                            "Local Time:",
+                            response?.location?.localtime?.split(" ").last ??
+                                ""),
+                        humidityAndWind(
+                            "Local Date:",
+                            response?.location?.localtime?.split(" ").first ??
+                                ""),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -216,7 +252,7 @@ class _HomepageState extends State<Homepage> {
           ),
           Text(
             data,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
         ],
       ),
