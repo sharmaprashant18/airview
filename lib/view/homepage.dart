@@ -57,6 +57,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:weather_app/api.dart';
+import 'package:weather_app/model/weather_model.dart';
 
 class Homepage extends StatelessWidget {
   final textController = TextEditingController();
@@ -102,5 +104,7 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  getWeatherData(String location) async {}
+  getWeatherData(String location) async {
+    WeatherModel response = await WeatherApi().getCurrentWeather(location);
+  }
 }
