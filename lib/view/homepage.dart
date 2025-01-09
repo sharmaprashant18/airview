@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import 'package:weather_app/model/weather_model.dart';
@@ -20,6 +21,11 @@ class _HomepageState extends State<Homepage> {
   String message = 'Search the Location';
 
   @override
+  void initState() {
+    super.initState();
+    fetchWeatherByDeviceLocation(); // Call this method during initialization
+  }
+
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
@@ -37,6 +43,34 @@ class _HomepageState extends State<Homepage> {
         ),
       ),
     ));
+  }
+
+  void fetchWeatherByDeviceLocation() async {
+    try {
+      checkLocationPermissions();
+
+      response = await WeatherApi().getCurrentWeather('Nepal');
+    } catch (e) {
+      setState(() {
+        message = 'Unable to fetch weather for your location';
+        // response = null;
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> checkLocationPermissions() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.deniedForever ||
+          permission == LocationPermission.denied) {
+        throw Exception("Location permissions are denied");
+      }
+    }
   }
 
   Widget buildSearch() {
@@ -66,107 +100,10 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget buildWeather() {
+  Widget? buildWeather() {
     if (response == null) {
-      return Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.location_on,
-                size: 70,
-              ),
-              Column(
-                children: [
-                  Text(
-                    response?.location?.name ?? "",
-                    style: TextStyle(fontSize: 50),
-                  ),
-                  Text(
-                    response?.location?.country ?? "",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          ListView(
-            shrinkWrap: true,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: Text(
-                  (response?.current?.tempC.toString() ?? "") + " °C",
-                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 200),
-                child: Text(
-                  response?.current?.condition?.text.toString() ?? "",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                ),
-              ),
-              SizedBox(
-                height: 200,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 200),
-                  child: Image.network(
-                    "https:${response?.current?.condition?.icon}",
-                    scale: .2,
-                  ),
-                ),
-              ),
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                shadowColor: Colors.amber,
-                elevation: 5,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        humidityAndWind("Humidity:",
-                            response?.current?.humidity?.toString() ?? ""),
-                        humidityAndWind(
-                            "Wind Speed:",
-                            (response?.current?.humidity?.toString() ?? "") +
-                                " km/h"),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        humidityAndWind(
-                            "UV:", response?.current?.uv?.toString() ?? ""),
-                        humidityAndWind("Percipitation:",
-                            response?.current?.precipMm?.toString() ?? ""),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        humidityAndWind(
-                            "Local Time:",
-                            response?.location?.localtime?.split(" ").last ??
-                                ""),
-                        humidityAndWind(
-                            "Local Date:",
-                            response?.location?.localtime?.split(" ").first ??
-                                ""),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )
-        ],
-      );
+      fetchWeatherByDeviceLocation();
+      return Center(child: Text(message));
     } else {
       return Column(
         children: [
@@ -181,7 +118,7 @@ class _HomepageState extends State<Homepage> {
                 children: [
                   Text(
                     response?.location?.name ?? "",
-                    style: TextStyle(fontSize: 50),
+                    style: TextStyle(fontSize: 40),
                   ),
                   Text(
                     response?.location?.country ?? "",
@@ -300,7 +237,6 @@ class _HomepageState extends State<Homepage> {
     } catch (e) {
       setState(() {
         message = 'Input the correct location';
-        response = null;
       });
     } finally {
       setState(() {
