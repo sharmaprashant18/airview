@@ -68,7 +68,105 @@ class _HomepageState extends State<Homepage> {
 
   Widget buildWeather() {
     if (response == null) {
-      return Text(message);
+      return Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.location_on,
+                size: 70,
+              ),
+              Column(
+                children: [
+                  Text(
+                    response?.location?.name ?? "",
+                    style: TextStyle(fontSize: 50),
+                  ),
+                  Text(
+                    response?.location?.country ?? "",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          ListView(
+            shrinkWrap: true,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 30),
+                child: Text(
+                  (response?.current?.tempC.toString() ?? "") + " °C",
+                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 200),
+                child: Text(
+                  response?.current?.condition?.text.toString() ?? "",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                ),
+              ),
+              SizedBox(
+                height: 200,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 200),
+                  child: Image.network(
+                    "https:${response?.current?.condition?.icon}",
+                    scale: .2,
+                  ),
+                ),
+              ),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                shadowColor: Colors.amber,
+                elevation: 5,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        humidityAndWind("Humidity:",
+                            response?.current?.humidity?.toString() ?? ""),
+                        humidityAndWind(
+                            "Wind Speed:",
+                            (response?.current?.humidity?.toString() ?? "") +
+                                " km/h"),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        humidityAndWind(
+                            "UV:", response?.current?.uv?.toString() ?? ""),
+                        humidityAndWind("Percipitation:",
+                            response?.current?.precipMm?.toString() ?? ""),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        humidityAndWind(
+                            "Local Time:",
+                            response?.location?.localtime?.split(" ").last ??
+                                ""),
+                        humidityAndWind(
+                            "Local Date:",
+                            response?.location?.localtime?.split(" ").first ??
+                                ""),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
+        ],
+      );
     } else {
       return Column(
         children: [
