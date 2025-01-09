@@ -1,10 +1,10 @@
-class ApiResponse {
+class WeatherModel {
   Location? location;
   Current? current;
 
-  ApiResponse({this.location, this.current});
+  WeatherModel({this.location, this.current});
 
-  ApiResponse.fromJson(Map<String, dynamic> json) {
+  WeatherModel.fromJson(Map<String, dynamic> json) {
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : null;
