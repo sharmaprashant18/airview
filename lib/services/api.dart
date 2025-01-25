@@ -20,5 +20,3 @@ class WeatherApi {
     }
   }
 }
-// http://api.weatherapi.com/v1/current.json
-// String apiUrl = "$currentWeather?key=$apiKey&q=$location";
