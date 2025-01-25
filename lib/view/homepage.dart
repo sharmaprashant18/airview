@@ -135,7 +135,6 @@ class _HomepageState extends State<Homepage> {
             ),
           ],
         );
-        return;
       }
 
       final position = await Geolocator.getCurrentPosition();
